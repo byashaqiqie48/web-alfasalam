@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function Warga_belajar()
+    {
+        return $this->hasOne('App\Model\Warga_belajar\Warga_belajar');
+    } 
 }

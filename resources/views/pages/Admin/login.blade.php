@@ -5,7 +5,6 @@
 @section('body')
 <div id="page-container">
     <main id="main-container">
-    <img src="assets/media/alfasalam/logo-yaysan.png" style="width:200px;height:200px;">
         <div class="hero-static d-flex align-items-center">
             <div class="w-100">
                 <div class="bg-white">

@@ -41,6 +41,10 @@ class CreateWargaBelajarsTable extends Migration
             //include created at dan updated at
             $table->timestamps();
             $table->foreign('tahun_ajar_id')->references('id')->on('tahun_ajars')->onDelete('cascade');
+
+            $table->integer('user_id')->unsigned();   
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade'); 
+
         });
     }
 

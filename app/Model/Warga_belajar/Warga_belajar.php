@@ -39,4 +39,9 @@ class Warga_belajar extends Model
     {
         return $this->belongsTo('App\Model\Admin\Tahun_ajar', 'tahun_ajar_id');
     }
+
+    public function User()
+	{
+		return $this->belongsTo('App\User');
+	} 
 }
