@@ -23,7 +23,7 @@ class Tahun_ajar extends Model
     // Eloquent Many To One
     public function Admins()
     {
-        return $this->belongsTo('App\\Admin\m nAdmin');
+        return $this->belongsTo('App\Model\Admin\Admin');
     }
 
 }

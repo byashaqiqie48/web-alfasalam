@@ -11,7 +11,6 @@ class Warga_belajar extends Model
     protected $fillable = [
         'nama_lengkap',
         'nama_panggilan',
-        'password',
         'alamat',
         'tempat_lahir',
         'tanggal_lahir',

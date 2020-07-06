@@ -17,7 +17,6 @@ class CreateWargaBelajarsTable extends Migration
             $table->id();
             $table->string('nama_lengkap');
             $table->string('nama_panggilan');
-            $table->string('password');
             $table->text('alamat');
             $table->string('tempat_lahir');
             $table->string('tanggal_lahir');
@@ -37,12 +36,8 @@ class CreateWargaBelajarsTable extends Migration
             $table->integer('no_ktp');
             $table->enum('paket', ['Paket A', 'Paket B', 'Paket C']);
             $table->string('lampiran_ktp')->nullable();
-            $table->unsignedBigInteger('tahun_ajar_id');
-            //include created at dan updated at
             $table->timestamps();
-            $table->foreign('tahun_ajar_id')->references('id')->on('tahun_ajars')->onDelete('cascade');
-
-            $table->integer('user_id')->unsigned();   
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade'); 
 
         });

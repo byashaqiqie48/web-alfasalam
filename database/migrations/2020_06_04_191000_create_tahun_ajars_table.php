@@ -21,6 +21,8 @@ class CreateTahunAjarsTable extends Migration
             $table->enum('status_pendaftaran', ['dibuka', 'ditutup'])->default('ditutup');
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
