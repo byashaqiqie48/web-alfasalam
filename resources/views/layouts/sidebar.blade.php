@@ -8,7 +8,7 @@
 <li class="nav-main-heading">Kelola Peserta</li>
 <li class="nav-main-item open">
     <a class="nav-main-link"
-        href="">
+        href="{{route('tahun_ajar.index')}}">
         <i class="nav-main-link-icon si si-clock"></i>
         <span class="nav-main-link-name">Tahun Ajaran</span>
     </a>

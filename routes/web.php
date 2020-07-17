@@ -25,9 +25,10 @@ Route::prefix('adm1n')->namespace('Admin')->group(function () {
     Route::prefix('dashboard')->middleware('auth.admin')->group(function () {
         //Route admin dashboard isi disini
         Route::get('', 'DashboardController@index')->name('adm1n.dashboard.index');
-        Route::get('sesi', 'TahunAjarController@index')->name('sesi.index');
+
+        Route::get('tahun_ajar', 'KelolaTahunAjarController@index')->name('tahun_ajar.index');
+        Route::post('tahun_ajar/create', 'KelolaTahunAjarController@store')->name('tahun_ajar.store');
+        Route::post('tahun_ajar/{id}/update', 'KelolaTahunAjarController@update')->name('tahun_ajar.update');
+        Route::post('tahun_ajar/delete', 'KelolaTahunAjarController@delete')->name('tahun_ajar.delete');
     });
-
-
-    
 });

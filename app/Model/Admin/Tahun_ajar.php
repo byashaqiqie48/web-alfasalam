@@ -17,7 +17,7 @@ class Tahun_ajar extends Model
 
     public function Warga_belajars()
     {
-        return $this->hasMany('App\Model\Warga_belajar\Warga_belajar', 'tahun_ajar_id');
+        return $this->hasMany('App\Model\Warga_belajar\Warga_belajar', 'tahun_ajar_id')->withTimeStamps();
     }
 
     // Eloquent Many To One

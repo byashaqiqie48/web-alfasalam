@@ -53,8 +53,53 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function index()
+    {
+
+        $sesi = Oprec::where('status_dibuka_oprec', 'dibuka')->get();
+
+        $peserta = Session::get('users');
+        $sudahDaftarSesiSekarang = null;
+
+        if (count($sesi) == 1) {
+            $skills = Skill::all();
+            $alreadyuser = Peserta::where('nim', $peserta->user_name)->get();
+
+            if ($alreadyuser) {
+                $i = 0;
+                foreach ($alreadyuser as $ulang) {
+                    $sudahDaftarSesiSekarang = Status::where('oprec_id', $sesi[0]->id)->where('peserta_id', $ulang->id)->first();
+                    if ($sudahDaftarSesiSekarang != null || count($alreadyuser) == 1) {
+                        break;
+                    }
+                    $i++;
+                }
+                if ($sudahDaftarSesiSekarang) {
+                    $alreadyuser = $alreadyuser[$i];
+                    return view('frontend.kelola-data', compact('skills', 'alreadyuser'))->with('warning', 'Oops: Anda sudah mengisi data registrasi, jika memerlukan update silahkan menuju dashboard Kelola Data !')->with('status', 'open');
+                }
+            }
+            return view('frontend.register-peserta', compact('peserta'))->with('status', 'open');
+        } //kalau lebih dari 1 sesi yang dibuka ya tidak boleh
+        else if (count($sesi) > 1) {
+            return view('frontend.register-peserta',  compact('peserta'))->with('status', 'adminError');
+        } else {
+            return view('frontend.register-peserta',  compact('peserta'))->with('status', 'closed');
+        }
+
+        //  $skills = Skill::all();
+        //  $peserta = Session::get('users');
+        //  $alreadyuser = Peserta::where('nim',$peserta->user_name)->first();
+        //  $user = Peserta::where('nim',$peserta->user_name)->first();
+
+        //  if($alreadyuser){
+        //     return view('frontend.kelola-data',compact('user','skills','alreadyuser'))->with('warning', 'Oops: Anda sudah mengisi data registrasi, jika memerlukan update silahkan menuju dashboard Kelola Data !')->with('status','open');
+        // }
+    }
     public function showRegistrationForm()
     {
+
         $warga_belajar = Warga_belajar::all();
 
         return view('auth.register', compact('warga_belajar'));

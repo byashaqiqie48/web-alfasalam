@@ -42,5 +42,10 @@ class Warga_belajar extends Model
     public function User()
 	{
 		return $this->belongsTo('App\User');
-	} 
+    } 
+    
+    public function Status()
+    {
+        return $this->hasMany('App\Model\Admin\Status');
+    }
 }
