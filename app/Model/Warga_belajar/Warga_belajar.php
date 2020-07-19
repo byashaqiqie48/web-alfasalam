@@ -1,14 +1,29 @@
 <?php
 
 namespace App\Model\Warga_belajar;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Warga_belajar extends Model
+class Warga_belajar extends Authenticatable
 {
+    use Notifiable;
+    protected $guard = 'warga_belajar';
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
     protected $connection = 'mysql';
     public $table = 'warga_belajars';
     protected $fillable = [
+        'email',
+        'password',
         'nama_lengkap',
         'nama_panggilan',
         'alamat',
@@ -39,13 +54,11 @@ class Warga_belajar extends Model
         return $this->belongsTo('App\Model\Admin\Tahun_ajar', 'tahun_ajar_id');
     }
 
-    public function User()
-	{
-		return $this->belongsTo('App\User');
-    } 
     
     public function Status()
     {
         return $this->hasMany('App\Model\Admin\Status');
     }
+
+    
 }

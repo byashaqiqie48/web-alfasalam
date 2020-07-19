@@ -38,13 +38,6 @@ class User extends Authenticatable
     ];
 
 
-    public function Warga_belajar()
-    {
-        return $this->hasOne('App\Model\Warga_belajar\Warga_belajar');
-    }
     
-    public function Tahun_ajars()
-    {
-        return $this->belongsTo('App\Admin\Tahun_ajar');
-    }
+   
 }

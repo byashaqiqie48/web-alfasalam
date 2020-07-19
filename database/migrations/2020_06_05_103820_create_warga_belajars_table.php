@@ -15,6 +15,8 @@ class CreateWargaBelajarsTable extends Migration
     {
         Schema::create('warga_belajars', function (Blueprint $table) {
             $table->id();
+            $table->string('email')->unique();
+            $table->string('password');
             $table->string('nama_lengkap');
             $table->string('nama_panggilan');
             $table->text('alamat');
@@ -37,9 +39,6 @@ class CreateWargaBelajarsTable extends Migration
             $table->enum('paket', ['Paket A', 'Paket B', 'Paket C']);
             $table->string('lampiran_ktp')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade'); 
-
         });
     }
 

@@ -164,7 +164,7 @@
                         <div class="form-group">
                             <input type="number" name="admin_id" value="{{$admin_id}}" hidden>
                             <label for="tahun_ajar" class="control-label">Tahun Ajaran</label>
-                            <input type="text" placeholder="{{$session->tahun_ajar}}" class="form-control" name="tahun_ajar" id="tahun_ajar"
+                            <input type="text" placeholder="Masukan Tahun Ajar" class="form-control" name="tahun_ajar" id="tahun_ajar"
                                 required>
                             <label for="status_dibuka_tahun_ajar" class="control-label">Status Tahun Ajar:</label>
                             <div class="radio">

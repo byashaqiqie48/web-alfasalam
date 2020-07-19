@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('warga_belajar')->namespace('Warga_belajar')->group(function () {
+    Route::get('', 'DashboardWargaBelajarController@index')->name('halaman.utama');
+
+    Route::prefix('auth')->namespace('Auth')->group(function () {
+        Route::get('logout', 'LoginWargaBelajarController@logout')->name('warga_belajar.logout');
+        Route::get('login', 'LoginWargaBelajarController@index')->name('warga_belajar.login.get')->middleware('guest');
+        Route::post('login', 'LoginWargaBelajarController@login')->name('warga_belajar.login.post');
+
+        Route::get('register', 'PendaftaranController@index')->name('warga_belajar.daftar');
+    });
+});
+
+
 // Admin Route
 Route::prefix('adm1n')->namespace('Admin')->group(function () {
 
@@ -23,7 +36,7 @@ Route::prefix('adm1n')->namespace('Admin')->group(function () {
     });
 
     Route::prefix('dashboard')->middleware('auth.admin')->group(function () {
-        //Route admin dashboard isi disini
+
         Route::get('', 'DashboardController@index')->name('adm1n.dashboard.index');
 
         Route::get('tahun_ajar', 'KelolaTahunAjarController@index')->name('tahun_ajar.index');

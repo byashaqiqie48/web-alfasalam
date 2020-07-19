@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'warga_belajar' => [
+            'driver' => 'session',
+            'provider' => 'warga_belajars',
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -79,6 +84,12 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Model\Admin\Admin::class,
+        ],
+
+        
+        'warga_belajars' => [
+            'driver' => 'eloquent',
+            'model' => App\Model\Warga_belajar\Warga_belajar::class,
         ],
 
         // 'users' => [

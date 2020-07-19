@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Warga_belajar\Pendaftaran;
+namespace App\Http\Controllers\Warga_belajar\Auth;
+
 
 use App\User;
 use App\Model\Warga_belajar\Warga_belajar;
 use App\Model\Admin\Tahun_ajar;
+use App\Model\Admin\Status;
+use Session;
 
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-class RegisterController extends Controller
+class PendaftaranController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -27,8 +30,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -44,8 +45,8 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
-    }
+        $this->middleware('guest:web')->except('logout');   
+     }
 
 
     /**
@@ -57,19 +58,18 @@ class RegisterController extends Controller
     public function index()
     {
 
-        $sesi = Oprec::where('status_dibuka_oprec', 'dibuka')->get();
+        $sesi = Tahun_ajar::where('status_dibuka_tahun_ajar', 'dibuka')->get();
 
-        $peserta = Session::get('users');
+        $peserta = Warga_belajar::all();
         $sudahDaftarSesiSekarang = null;
 
         if (count($sesi) == 1) {
-            $skills = Skill::all();
-            $alreadyuser = Peserta::where('nim', $peserta->user_name)->get();
+            $alreadyuser = Warga_belajar::where($peserta->user_id, $peserta->nama_lengkap)->get();
 
             if ($alreadyuser) {
                 $i = 0;
                 foreach ($alreadyuser as $ulang) {
-                    $sudahDaftarSesiSekarang = Status::where('oprec_id', $sesi[0]->id)->where('peserta_id', $ulang->id)->first();
+                    $sudahDaftarSesiSekarang = Status::where('tahun_ajar_id', $sesi[0]->id)->where('warga_belajar_id', $ulang->id)->first();
                     if ($sudahDaftarSesiSekarang != null || count($alreadyuser) == 1) {
                         break;
                     }
@@ -77,15 +77,15 @@ class RegisterController extends Controller
                 }
                 if ($sudahDaftarSesiSekarang) {
                     $alreadyuser = $alreadyuser[$i];
-                    return view('frontend.kelola-data', compact('skills', 'alreadyuser'))->with('warning', 'Oops: Anda sudah mengisi data registrasi, jika memerlukan update silahkan menuju dashboard Kelola Data !')->with('status', 'open');
+                    return view('pages.Warga_belajar.auth.pendaftaran', compact('alreadyuser'))->with('warning', 'Oops: Anda sudah mengisi data registrasi, jika memerlukan update silahkan menuju dashboard Kelola Data !')->with('status', 'open');
                 }
             }
-            return view('frontend.register-peserta', compact('peserta'))->with('status', 'open');
+            return view('pages.Warga_belajar.auth.pendaftaran', compact('peserta'))->with('status', 'open');
         } //kalau lebih dari 1 sesi yang dibuka ya tidak boleh
         else if (count($sesi) > 1) {
-            return view('frontend.register-peserta',  compact('peserta'))->with('status', 'adminError');
+            return view('pages.Warga_belajar.auth.pendaftaran',  compact('peserta'))->with('status', 'adminError');
         } else {
-            return view('frontend.register-peserta',  compact('peserta'))->with('status', 'closed');
+            return view('pages.Warga_belajar.auth.pendaftaran',  compact('peserta'))->with('status', 'closed');
         }
 
         //  $skills = Skill::all();
@@ -97,13 +97,14 @@ class RegisterController extends Controller
         //     return view('frontend.kelola-data',compact('user','skills','alreadyuser'))->with('warning', 'Oops: Anda sudah mengisi data registrasi, jika memerlukan update silahkan menuju dashboard Kelola Data !')->with('status','open');
         // }
     }
-    public function showRegistrationForm()
-    {
 
-        $warga_belajar = Warga_belajar::all();
+    // public function showRegistrationForm()
+    // {
 
-        return view('auth.register', compact('warga_belajar'));
-    }
+    //     $warga_belajar = Warga_belajar::all();
+
+    //     return view('auth.register', compact('warga_belajar'));
+    // }
 
 
     /**
@@ -182,34 +183,37 @@ class RegisterController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        //Table Users
-        $user = new User();
-        $user->email = Input::get('email');
-        $user->password = Hash::make(Input::get('password'));
-        $user->level = 1;
-        $user->save();
 
 
         //Table Warga_belajar 
-        $user_id = $user->id;
         $warga_belajar = new Warga_belajar();
-        $warga_belajar->user_id = $user_id;
-        $warga_belajar->nama = Input::get('nama');
-        $warga_belajar->nis = Input::get('nis');
+        $warga_belajar->email = Input::get('email');
+        $warga_belajar->password = Input::get(Hash::make('password'));
+        $warga_belajar->nama_lengkap = Input::get('nama_lengkap');
+        $warga_belajar->nama_panggilan = Input::get('nama_panggilan');
+        $warga_belajar->alamat = Input::get('alamat');
         $warga_belajar->tempat_lahir = Input::get('tempat_lahir');
         $warga_belajar->tanggal_lahir = Input::get('tanggal_lahir');
-        $warga_belajar->nem = Input::get('nem');
-        $warga_belajar->no_ijazah = Input::get('no_ijazah');
-        $warga_belajar->nama_ortu = Input::get('nama_ortu');
-        $warga_belajar->pekerjaan_ortu = Input::get('pekerjaan_ortu');
-        $warga_belajar->telp = Input::get('telp');
-        $warga_belajar->alamat = Input::get('alamat');
-        $warga_belajar->jenis_sekolah = Input::get('jenis_sekolah');
+        $warga_belajar->agama = Input::get('agama');
+        $warga_belajar->gender = Input::get('gender');
+        $warga_belajar->phone = Input::get('phone');
+        $warga_belajar->anak_ke = Input::get('anak_ke');
+        $warga_belajar->jenis_ijazah = Input::get('jenis_ijazah');
+        $warga_belajar->tahun_ijazah = Input::get('tahun_ijazah');
+        $warga_belajar->nomor_ijazah = Input::get('nomor_ijazah');
+        $warga_belajar->nama_ayah = Input::get('nama_ayah');
+        $warga_belajar->pekerjaan_ayah = Input::get('pekerjaan_ayah');
+        $warga_belajar->alamat_ayah = Input::get('alamat_ayah');
+        $warga_belajar->nama_ibu = Input::get('nama_ibu');
+        $warga_belajar->pekerjaan_ibu = Input::get('pekerjaan_ibu');
+        $warga_belajar->alamat_ibu = Input::get('alamat_ibu');
+        $warga_belajar->no_ktp = Input::get('no_ktp');
+        $warga_belajar->paket = Input::get('paket');
         if ($file = $request->hasFile('url_foto')) {
-            $namaFile = $user->id;
+            $namaFile = $warga_belajar->id;
             $file = $request->file('url_foto');
             $fileName = $namaFile . '_' . $file->getClientOriginalName();
-            $destinationPath = public_path() . '/images/';
+            $destinationPath = public_path() . '/media/alfasalam';
             $file->move($destinationPath, $fileName);
             $warga_belajar->url_foto = $fileName;
         }
@@ -220,9 +224,16 @@ class RegisterController extends Controller
         $id = $warga_belajar->id;
         $sesi = Tahun_ajar::where('status_dibuka_tahun_ajar', 'dibuka')->first();
         $tahun_ajar = new Tahun_ajar();
-        $tahun_ajar->user_id = $id;
         $tahun_ajar->tahun_ajar_id = $sesi->id;
         $tahun_ajar->save();
+
+        //Table Status
+        $id = $warga_belajar->id;
+        $status = new Status();
+        $status->warga_belajar_id = $id;
+        $status->tahun_ajar_id = $sesi->id;
+        $status->save();
+
 
         return redirect()->back()->with('success', 'Registrasi Anda telah berhasil!. Silakan login dengan menggunakan email dan password Anda.');
     }
