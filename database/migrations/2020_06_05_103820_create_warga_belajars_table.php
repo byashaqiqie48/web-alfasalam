@@ -35,7 +35,7 @@ class CreateWargaBelajarsTable extends Migration
             $table->string('nama_ibu');
             $table->string('pekerjaan_ibu');
             $table->text('alamat_ibu');
-            $table->integer('no_ktp');
+            $table->string('no_ktp');
             $table->enum('paket', ['Paket A', 'Paket B', 'Paket C']);
             $table->string('lampiran_ktp')->nullable();
             $table->timestamps();
