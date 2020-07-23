@@ -22,6 +22,7 @@ Route::prefix('warga_belajar')->namespace('Warga_belajar')->group(function () {
         Route::post('login', 'LoginWargaBelajarController@login')->name('warga_belajar.login.post');
 
         Route::get('register', 'PendaftaranController@index')->name('warga_belajar.daftar');
+        Route::post('register', 'PendaftaranController@register')->name('warga_belajar.daftar.submit');
     });
 });
 

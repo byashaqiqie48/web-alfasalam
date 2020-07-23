@@ -120,6 +120,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        'warga_belajars'=>[
+            'provider'=> 'warga_belajars',
+            'table'=> 'password_resets',
+            'expire'=>60,
+        ],
     ],
 
     /*

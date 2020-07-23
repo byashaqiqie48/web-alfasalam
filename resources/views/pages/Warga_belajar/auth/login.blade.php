@@ -33,14 +33,14 @@
                                     </div>
                                     @endif
                                 </div>
-                                <form class="js-validation-signin" method="POST" action="{{route('warga_belajar.login.post')}}">
+                                <form id="form-login" class="js-validation-signin" method="POST" action="{{route('warga_belajar.login.post')}}">
                                     @csrf
                                     <div class="py-3">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg form-control-alt" id="login-username" name="email" placeholder="Email" required>
+                                            <input type="text" class="form-control form-control-lg form-control-alt" id="email" name="email" placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-lg form-control-alt" id="login-password" name="password" placeholder="Password" required>
+                                            <input type="password" class="form-control form-control-lg form-control-alt" id="password" name="password" placeholder="Password" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="d-md-flex align-items-md-center justify-content-md-between">
@@ -67,4 +67,15 @@
         </div>
     </main>
 </div>
-@stop
+@endsection
+@section('js_after')
+<script src="assets/js/oneui.core.min.js"></script>
+<script src="assets/js/oneui.app.min.js"></script>
+<script src="{{asset('js/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+
+<script>
+    $('#form-login').on('submit', function() {
+        One.loader('show')
+    })
+</script>
+@endsection
