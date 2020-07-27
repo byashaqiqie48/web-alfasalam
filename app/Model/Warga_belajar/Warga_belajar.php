@@ -51,7 +51,7 @@ class Warga_belajar extends Authenticatable
 
     public function Tahun_ajars()
     {
-        return $this->belongsTo('App\Model\Admin\Tahun_ajar', 'tahun_ajar_id');
+        return $this->belongsTo('App\Model\Admin\Tahun_ajar', 'tahun_ajar_id')->withTimeStamps();
     }
 
     

@@ -30,9 +30,9 @@
                 </h1>
                 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-alt">
-                        <li class="breadcrumb-item">Examples</li>
+                        <li class="breadcrumb-item">Alfasalam Admin Backend</li>
                         <li class="breadcrumb-item" aria-current="page">
-                            <a class="link-fx" href="">Plugin</a>
+                            <a class="link-fx" href="">Dashboard</a>
                         </li>
                     </ol>
                 </nav>

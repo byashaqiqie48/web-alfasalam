@@ -96,7 +96,7 @@
                 <a class="font-w600 text-dual" href="/">
                     <i class="fa fa-circle-notch text-primary"></i>
                     <span class="smini-hide">
-                        <span class="font-w700 font-size-h5"> Simutu Lab.</span>
+                        <span class="font-w700 font-size-h4"> Alfasalam</span>
                     </span>
                 </a>
                 <!-- END Logo -->

@@ -50,14 +50,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row justify-content-center mb-0">
-                                        <div class="col-md-6 col-xl-5">
-                                            <button type="submit" class="btn btn-block btn-primary">
-                                                <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Sign In
-                                            </button>
+                                        <div class="form-group row justify-content-center mb-0">
+                                            <div class="col-md-6 col-xl-5">
+                                                <button type="submit" class="btn btn-block btn-primary">
+                                                    <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Sign In
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
+                                    <a type="button" class="btn btn-block btn-primary text-light" href="{{route('warga_belajar.forgot')}}">
+                                        <i class="fa fa-fw fa-question-circle text-center"></i>
+                                        Forgot Password
+                                    </a>
                                 </form>
                             </div>
                         </div>

@@ -13,10 +13,10 @@
 <div class="bg-body-light">
     <div class="content content-full">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-            <h1 class="flex-sm-fill h1 my-2">TAHUN AJAR</h1>
+            <h1 class="flex-sm-fill h1 my-2 font-w700 text-modern-darker">TAHUN AJAR</h1>
             <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-alt">
-                    <li class="breadcrumb-item">App</li>
+                    <li class="breadcrumb-item">Alfasalam Admin Backend</li>
                     <li class="breadcrumb-item" aria-current="page">
                         <a class="link-fx" href="{{route('adm1n.dashboard.index')}}">Dashboard</a>
                     </li>
@@ -31,7 +31,7 @@
 <!-- Button Add Tahun Ajar -->
 <div class="block">
     <div class="block-header">
-        <h3 class="block-title">List Alur Pemesanan</h3>
+        <h3 class="block-title">List Tahun Ajaran Alfasalam</h3>
         <button type="button" class="btn btn-sm btn-primary push ml-5" data-toggle="modal" data-target="#modal-tambah">
             <i class="fa fa-fw fa-plus mr-1">
             </i>
