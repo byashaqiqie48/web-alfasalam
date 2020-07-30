@@ -9,7 +9,6 @@
  <link rel="stylesheet" href="assets/css/oneui.min.css">
  <link rel="stylesheet" href="assets/js/plugins/flatpickr/flatpickr.min.css">
  <link rel="stylesheet" href="{{asset('js/plugins/sweetalert2/sweetalert2.min.css')}}">
-
  @endsection
 
  @section('content')

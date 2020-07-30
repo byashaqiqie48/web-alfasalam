@@ -55,6 +55,7 @@
             <tbody>
                 <?php $i = 1; ?>
                 @foreach ($sessions as $session)
+
                 <tr id="baris{{$session->id}}">
                     <td>{{$i++}}</td>
                     <td>{{$session->tahun_ajar}}</td>
@@ -76,9 +77,10 @@
                         @endif
                     </td>
                     <td>{{$session->created_at->format('d - M - Y')}}</td>
+                    
                     <td>
                         <div class="row justify-content-center">
-                            <a type="button" href="/adm1n/tahun_ajar/detail/{{$session->id}}" class="btn btn-sm btn-rounded btn-info mr-1">
+                            <a type="button"  href="{{route('tahun_ajar.detail',['id'=>$session->id])}}" class="btn btn-sm btn-rounded btn-info mr-1">
                                 <i class="fa fa-fw fa-list text-light"></i>
                             </a>
                             <button type="button" class="btn btn-sm btn-rounded btn-success ml-1 mr-1" data-toggle="modal" data-target="#modal-edit" data-id="{{$session->id}}" data-nama="{{$session->tahun_ajar}}">
@@ -89,6 +91,7 @@
                             </button>
                         </div>
                     </td>
+                
                 </tr>
                 <?php $i++; ?>
                 @endforeach

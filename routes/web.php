@@ -43,6 +43,7 @@ Route::prefix('adm1n')->namespace('Admin')->group(function () {
         Route::get('', 'DashboardController@index')->name('adm1n.dashboard.index');
 
         Route::get('tahun_ajar', 'KelolaTahunAjarController@index')->name('tahun_ajar.index');
+        Route::get('tahun_ajar/detail/{id}', 'KelolaTahunAjarController@detail')->name('tahun_ajar.detail');
         Route::post('tahun_ajar/create', 'KelolaTahunAjarController@store')->name('tahun_ajar.store');
         Route::post('tahun_ajar/{id}/update', 'KelolaTahunAjarController@update')->name('tahun_ajar.update');
         Route::post('tahun_ajar/delete', 'KelolaTahunAjarController@delete')->name('tahun_ajar.delete');
@@ -50,7 +51,10 @@ Route::prefix('adm1n')->namespace('Admin')->group(function () {
 
         Route::get('list_warga_belajar', 'KelolaWargaBelajarController@index')->name('list_warga_belajar.index');
         Route::get('list_warga_belajar/detail/{id}', 'KelolaWargaBelajarController@detail')->name('list_warga_belajar.detail');
-        Route::post('list_warga_belajar/detail/{id}/update', 'KelolaWargaBelajarController@update')->name('list_warga_belajar.update');
+        Route::put('list_warga_belajar/detail/{id}/update', 'KelolaWargaBelajarController@update')->name('list_warga_belajar.update');
+        Route::post('list_warga_belajar/lampiran', 'KelolaWargaBelajarController@getLampiran')->name('list_warga_belajar.lampiran');
+        Route::delete('list_warga_belajar/delete', 'KelolaWargaBelajarController@delete')->name('list_warga_belajar.delete');
+        
 
     });
 });

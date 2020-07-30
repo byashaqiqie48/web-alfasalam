@@ -44,9 +44,28 @@ class KelolaTahunAjarController extends Controller
     }
 
     public function detail($id)
-    {
-        $detail = Tahun_ajar::where('id', $id)->get()->first();
-        return $detail;
+    {   
+        
+        $status = Status::all();
+        $status = Status::where('tahun_ajar_id',$id)->where('status_pendaftaran_status','lolos')->get(); 
+        // where('tahun_ajar_id',$id)->where('status_pendaftaran_status','lolos')->get();
+        // dd($status);
+        // $warga_belajars= Warga_belajar::all();
+
+        
+        // $male = 0;
+        // $female = 0;
+        // $total = 0;
+        // foreach($warga_belajars as $warga_belajar){
+        //     if($warga_belajar->gender=="L"){
+        //         $male++;
+        //     }else{
+        //         $female++;
+        //     }
+        //     $total++;
+        // }
+        // $gender=[$female,$male];
+        return view('pages.Admin.detail-warga_belajar-tahun_ajar',compact('status'))->with('stats', 'tahun_ajar_ini');
     }
 
     public function update($id, Request $request)

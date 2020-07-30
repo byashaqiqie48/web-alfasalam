@@ -16,27 +16,17 @@
 <div class="block">
     <div class="block-content block-content-full">
         <div class="col-md-16">
-            <form id="form-update-detail" method="POST">
-                @csrf
+            <form action="/adm1n/dashboard/list_warga_belajar/detail/{{ $warga_belajar->id }}/update" method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
                 <div class="block">
-                    <div class="block-header block-header-default block-header-rtl">
-                        <h3 class="block-title">Warga Belajar: {{$warga_belajar->nama_lengkap}}</h3>
-                        <div class="block-options">
-                            <a type="button" class="btn btn-sm btn-secondary" href="/adm1n/dashboard/list_warga_belajar">
-                                Kembali ke List Warga Belajar
-                            </a>
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-update-detail" data-id="{{$warga_belajar->id}}" data-nama="{{$warga_belajar->nama_lengkap}}">
-                                Update
-                            </button>
-                        </div>
-                    </div>
                     <span class="font-w700 d-sm-table-cell text-center bg-warning">Apabila Tidak Ingin Mengganti Data Klik Tombol Kembali ke List Warga Belajar</span>
                     <div class="block-content">
                         <div class="row justify-content-center py-sm-3 py-md-5">
                             <div class="col-sm-10 col-md-8">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="{{$warga_belajar->email}}" disabled>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{$warga_belajar->email}}">
                                     <div class="alert-danger">{{$errors->first('email')}} </div>
                                 </div>
                                 <div class="form-group">
@@ -81,20 +71,20 @@
                                     <label>Gender</label>
                                     @if($warga_belajar->gender == "L")
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" value="L" checked disabled>
+                                        <input class="form-check-input" type="radio" name="gender" value="L" checked>
                                         <label class="form-check-label" for="example-radios-default1">Laki Laki</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" value="P" disabled>
+                                        <input class="form-check-input" type="radio" name="gender" value="P">
                                         <label class="form-check-label" for="example-radios-default2">Perempuan</label>
                                     </div>
                                     @else
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" value="L" checked disabled>
+                                        <input class="form-check-input" type="radio" name="gender" value="L">
                                         <label class="form-check-label" for="example-radios-default1">Laki Laki</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gender" value="P" checked disabled>
+                                        <input class="form-check-input" type="radio" name="gender" value="P" checked>
                                         <label class="form-check-label" for="example-radios-default2">Perempuan</label>
                                     </div>
                                     @endif
@@ -213,6 +203,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="block-header block-header-default block-header-rtl">
+                            <h3 class="block-title">Warga Belajar: {{$warga_belajar->nama_lengkap}}</h3>
+                            <div class="block-options">
+                                <a type="button" class="btn btn-sm btn-secondary" href="{{route('list_warga_belajar.index')}}">
+                                    Kembali ke List Warga Belajar
+                                </a>
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <a> Update</a>
+
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -220,50 +222,16 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-update-detail" tabindex="-1" role="dialog" aria-labelledby="modal-block-popout" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-popout modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Edit Tahun Ajar</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <form id="form-update-detail" action="" method="POST">
-                    @csrf
-                    <div class="block-content block-content-full text-right border-top">
-                        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check mr-1"></i>Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 @section('js_after')
 <script src="assets/js/oneui.core.min.js"></script>
 <script src="assets/js/oneui.app.min.js"></script>
 <script src="{{asset('js/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-<script>
-    $('#form-update-detail').on('submit', function() {
-        One.loader('show')
-    })
-    $("#modal-update-detail").on("show.bs.modal", function(event) {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-        $("#form-update-detail").attr("action", '/adm1n/dashboard/list_warga_belajar/detai/' + button.data('id') + '/update');
 
-    });
-</script>
 @if(Session::get('berhasil'))
 <script>
     Swal.fire(
-        '{{Session::get('
-        berhasil ')}}', '', 'success'
+        '{{Session::get('berhasil')}}', '', 'success'
     )
 </script>
 @endif

@@ -7,6 +7,8 @@ use App\Model\Admin\Tahun_ajar;
 use App\Http\Controllers\Controller;
 use App\Model\Admin\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class KelolaWargaBelajarController extends Controller
 {
@@ -31,20 +33,20 @@ class KelolaWargaBelajarController extends Controller
             $total++;
         }
         $gender = [$female, $male];
+
         return view('pages.Admin.list-warga_belajar', compact('warga_belajars', 'gender', 'total', 'tahun_ajars'));
     }
 
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
         $d = Warga_belajar::all();
         $warga_belajar = Warga_belajar::find($id);
         return view('pages.Admin.detailDataWarga_belajar', compact('warga_belajar', 'd'));
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         $warga_belajar = Warga_belajar::find($id);
-        $warga_belajar = Warga_belajar::where('id', $request->id)->first();
         $warga_belajar->email = $request->input('email');
         $warga_belajar->password = Hash::make($request->input('password'));
         $warga_belajar->nama_lengkap = $request->input('nama_lengkap');
@@ -70,11 +72,10 @@ class KelolaWargaBelajarController extends Controller
         if ($request->has('lampiran_ktp')) {
             $this->updateLampiran($request);
         }
-        $warga_belajar->save();
+        $warga_belajar->update();
 
 
-        Session::flash('berhasil', 'Tahun Ajar Berhasil Diedit !');
-        return redirect(route('list_warga_belajar.index'));
+        return redirect('/adm1n/dashboard/list_warga_belajar')->with('success', 'Data Warga Belajar Berhasil di edit !');
     }
 
     public function updateLampiran(Request $request)
@@ -86,5 +87,24 @@ class KelolaWargaBelajarController extends Controller
         $lampiran_ktp->move((public_path() . "/files/lampiran/"), $name_lampiran);
         $warga_belajar->lampiran_ktp = $path_lampiran;
         $warga_belajar->save();
+    }
+
+    public function getLampiran(Request $request)
+    {
+        $file = public_path() . '/' . $request->input('lampiran_ktp');
+        $headers = array('Content-Type: application/pdf');
+        return Response::download($file, 'lampiran_ktp.pdf', $headers);
+    }
+
+    public function delete(Request $request)
+    {
+        $destroy = Warga_belajar::findOrFail($request->id);
+        try {
+            if ($destroy->lampiran_ktp != NULL) {
+                unlink(public_path() . "/" . $destroy->lampiran_ktp);
+            }
+        } catch (Exception $e) { }
+        $destroy->delete();
+        return redirect('/adm1n/dashboard/list_warga_belajar')->with('success', 'Warga Belajar Sudah Dihapus !');
     }
 }

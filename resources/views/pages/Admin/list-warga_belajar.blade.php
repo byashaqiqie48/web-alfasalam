@@ -25,6 +25,7 @@
                 </ol>
             </nav>
         </div>
+        @include('layouts.message')
     </div>
 </div>
 <div class="block">
@@ -49,46 +50,68 @@
                 <tr>
                     <th class="d-sm-table-cell text-center" style="width: 60px">No.</th>
                     <th class="d-sm-table-cell text-center">Nama</th>
-                    <th class="d-sm-table-cell text-center">Tahun Ajar</th>
                     <th class="d-sm-table-cell text-center">Paket</th>
                     <th class="d-sm-table-cell text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i = 1; ?>
-                @foreach ($tahun_ajars as $tahun_ajar )
                 @foreach($warga_belajars as $warga_belajar)
                 <tr>
                     <td class="text-center">{{$i++}}</td>
                     <td class="text-center">{{$warga_belajar->nama_lengkap}}</td>
-                    <td class="text-center">{{$tahun_ajar->tahun_ajar}}</td>
                     <td class="text-center">{{$warga_belajar->paket}}</td>
                     <td>
                         <div class="row justify-content-center">
-                            <a type="button" href="{{route('list_warga_belajar.detail',['id'=>$warga_belajar->id])}}" class="btn btn-sm btn-rounded btn-info mr-1">
+                            <a type="button" href="{{route('list_warga_belajar.detail',['id'=>$warga_belajar->id])}}" class="btn btn-sm  btn-info mr-1">
                                 <i class="fa fa-fw fa-book-open text-light"></i>
-                                Detail
+                                <br>Detail
                             </a>
-                            <button type="button" class="btn btn-sm btn-rounded btn-success ml-1 mr-1" data-toggle="modal" data-target="#modal-edit" data-id="" data-nama="">
-                                <i class="fa fa-fw fa-file-download"></i>
-                                Download
-                            </button>
-                            <button type="button" class="btn btn-sm btn-rounded btn-danger ml-1 btn-hapus" data-id="">
-                                <i class="fa fa-fw fa-trash"></i>
-                                Delete
-                            </button>
+                            @if($warga_belajar->lampiran_ktp != NULL)
+                            <a class="btn btn-sm  btn-success ml-1 mr-1" href="{{asset('').$warga_belajar->lampiran_ktp}}"><i class="fa fa-fw fa-file-download"></i>
+                                <br>Download Lampiran</a>
+                            @else
+                            <a class="btn btn-sm  btn-success ml-1 mr-1" style="cursor: not-allowed;" href="#"><i class="fa fa-fw fa-file-download"></i>
+                                <br>Download Lampiran</a>
+                            @endif
+                            <a class="btn btn-sm  btn-danger ml-1 mr-1  text-light" onclick="hapus('{{$warga_belajar->id}}','{{$warga_belajar->nama_lengkap}}')" id="hapus_peserta"><i class="fa fa-fw fa-trash  text-light"></i>
+                                <br>Hapus</a>
                         </div>
                     </td>
                     @endforeach
-                    @endforeach
+                    
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-<!-- Modal Detail -->
 
 
+<!-- modal Delete -->
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modal-block-popout" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-popout modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <p class="text-light">
+                        Are you sure to delete <label id="nama_lengkap"></label> as Warga Belajar?
+                    </p>
+                    <form action="{{route('list_warga_belajar.delete')}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input hidden id="id_to_delete" name="id">
+                        <button type="button" data-dismiss="modal" class="btn btn-primary">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-danger" value="submit">
+                            Continue Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @endsection
@@ -105,4 +128,12 @@
 
 <!-- Page JS Code -->
 <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
+<script>
+    function hapus(id, nama_peserta) {
+        $('#id_to_delete').val(id);
+        $('#nama_peserta').text(nama_peserta);
+        $('#modal-delete').modal('show');
+    }
+</script>
+
 @endsection

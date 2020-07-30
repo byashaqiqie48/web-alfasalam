@@ -17,7 +17,7 @@ class Status extends Model
     
         public function Warga_belajars()
         {
-            return $this->belongsTo('App\Model\Warga_belajar\Warga_belajar');
+            return $this->belongsTo('App\Model\Warga_belajar\Warga_belajar','warga_belajar_id');
         }
         public function Tahun_ajars()
         {
